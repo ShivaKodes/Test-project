@@ -37,6 +37,8 @@ pipeline {
           
                 # Copy build files
                     cp -r dist/* ${DEPLOY_PATH}/
+
+                    ls -la ${DEPLOY_PATH}
                 '''
             }
         }
