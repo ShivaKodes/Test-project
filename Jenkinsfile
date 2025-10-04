@@ -1,8 +1,12 @@
 pipeline {
     agent any
-    tools {nodejs "Node"}
+
     environment {
         DEPLOY_PATH = "/var/www/html"
+    }
+
+    tools {
+        nodejs "Node"
     }
 
     stages {
@@ -12,17 +16,19 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Install & Build') {
             steps {
                 sh '''
                   npm ci --no-audit --ignore-scripts
                   npm run build
                 '''
+                stash includes: 'build/**', name: 'build-artifacts'
             }
         }
 
         stage('Deploy') {
             steps {
+                unstash 'build-artifacts'
                 sh '''
                   rm -rf ${DEPLOY_PATH}/*
                   cp -r build/* ${DEPLOY_PATH}/
@@ -32,8 +38,11 @@ pipeline {
     }
 
     post {
-        always {
-            echo "Pipeline completed!"
+        success {
+            echo "Pipeline succeeded ✅"
+        }
+        failure {
+            echo "Pipeline failed ❌"
         }
     }
 }
