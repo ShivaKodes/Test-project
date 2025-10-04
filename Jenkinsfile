@@ -22,7 +22,7 @@ pipeline {
                   npm ci --no-audit --ignore-scripts
                   npm run build
                 '''
-                stash includes: 'build/**', name: 'build-artifacts'
+                stash includes: 'dist/**', name: 'build-artifacts'
             }
         }
 
@@ -31,7 +31,7 @@ pipeline {
                 unstash 'build-artifacts'
                 sh '''
                   rm -rf ${DEPLOY_PATH}/*
-                  cp -r build/* ${DEPLOY_PATH}/
+                  cp -r dist/* ${DEPLOY_PATH}/
                 '''
             }
         }
