@@ -31,7 +31,6 @@ pipeline {
                 unstash 'build-artifacts'
                 sh '''
                   # create deploy folder if it doesn't exist
-                  mkdir -p ${DEPLOY_PATH}
                   rm -rf ${DEPLOY_PATH}/*
                   cp -r dist/* ${DEPLOY_PATH}/
                 '''
