@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    tools {nodejs "Node"}
     environment {
         DEPLOY_PATH = "/var/www/html"
     }
@@ -13,9 +13,6 @@ pipeline {
         }
 
         stage('Build') {
-            agent {
-                tools {nodejs "Node"}   // run build in Node.js container
-            }
             steps {
                 sh '''
                   npm ci --no-audit --ignore-scripts
