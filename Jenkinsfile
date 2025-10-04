@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DEPLOY_PATH = "/var/www/html"
+        DEPLOY_PATH = "/var/www/react-app"
     }
 
     tools {
@@ -30,6 +30,8 @@ pipeline {
             steps {
                 unstash 'build-artifacts'
                 sh '''
+                  # create deploy folder if it doesn't exist
+                  mkdir -p ${DEPLOY_PATH}
                   rm -rf ${DEPLOY_PATH}/*
                   cp -r dist/* ${DEPLOY_PATH}/
                 '''
