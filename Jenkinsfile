@@ -24,8 +24,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                  sudo rm -rf ${DEPLOY_PATH}/*
-                  sudo cp -r build/* ${DEPLOY_PATH}/
+                  rm -rf ${DEPLOY_PATH}/*
+                  cp -r build/* ${DEPLOY_PATH}/
                 '''
             }
         }
