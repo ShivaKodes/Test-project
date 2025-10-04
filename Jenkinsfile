@@ -22,15 +22,14 @@ pipeline {
                   npm ci --no-audit --ignore-scripts
                   npm run build
                 '''
-                stash includes: 'dist/**', name: 'build-artifacts'
             }
         }
 
         stage('Deploy') {
             steps {
-                unstash 'build-artifacts'
                 sh '''
                   # create deploy folder if it doesn't exist
+                  mkdir -p ${DEPLOY_PATH}
                   rm -rf ${DEPLOY_PATH}/*
                   cp -r dist/* ${DEPLOY_PATH}/
                 '''
