@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build') {
             agent {
-                docker { image 'node:18' }   // run build in Node.js container
+                tools {nodejs "Node"}   // run build in Node.js container
             }
             steps {
                 sh '''
