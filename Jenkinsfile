@@ -13,10 +13,13 @@ pipeline {
         }
 
         stage('Build') {
+            agent {
+                docker { image 'node:18' }   // run build in Node.js container
+            }
             steps {
                 sh '''
-                npm ci --no-audit --ignore-scripts
-                npm run build
+                  npm ci --no-audit --ignore-scripts
+                  npm run build
                 '''
             }
         }
@@ -24,10 +27,16 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                sudo rm -rf ${DEPLOY_PATH}/*
-                sudo cp -r build/* ${DEPLOY_PATH}/
+                  sudo rm -rf ${DEPLOY_PATH}/*
+                  sudo cp -r build/* ${DEPLOY_PATH}/
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline completed!"
         }
     }
 }
